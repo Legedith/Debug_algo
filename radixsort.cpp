@@ -6,7 +6,7 @@ void radixsort(int arr[],int digit);
 struct node* createnode(int value);
 
 int main(){
-    int arr[]={45,23,18,64,75};
+    int arr[]={123, 45, 6, 7890, 123456};
     int digit=getDigit(arr);
     printf("the maximum digit in array is:%d",digit);
     printf("\n The sorted array is:");
@@ -60,6 +60,8 @@ void radixsort(int arr[],int digit)
     for (int i=0;i<digit;i++){
         for(int j=0;j<5;j++){
         int index=tempArr[j]%k;
+        //print index and element, i
+        printf("\n index:%d element:%d i:%d \n",index,tempArr[j], i);
        
         if(poarr[index].next==NULL) {
             poarr[index].next=createnode(arr[j]);
@@ -67,7 +69,7 @@ void radixsort(int arr[],int digit)
            
           } 
 
-	else {
+	    else {
             struct node* temp1=poarr[index].next->next;
             struct node* temp2=poarr[index].next;
             while(temp1!=NULL) {
@@ -78,13 +80,14 @@ void radixsort(int arr[],int digit)
             temp2->next=temp1;
             }
        
-     while((digit-1)){
-     for(int i=0;i<10;i++){
-    if(poarr[i].next!=NULL)
-     	free(poarr[i].next);
-	  }
-}
+     
     }
+            while((digit-1)){
+            for(int i=0;i<10;i++){
+            if(poarr[i].next!=NULL)
+                free(poarr[i].next);
+            }
+        }
     k=k*10;
    }
      

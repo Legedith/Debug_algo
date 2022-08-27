@@ -20,166 +20,69 @@
 #include <math.h>
 struct node
 {
-    int data;
+    void* data;
     struct node *next;
 };
 
-// Function to take a list and add element to it
-void add(struct node **head, int data, int index)
+struct sll{
+    struct node *head;
+};
+
+struct sll *create_sll()
 {
-    // Insert at index, if index is -1 insert at end
+    struct sll *sll = (struct sll *)malloc(sizeof(struct sll));
+    sll->head = NULL;
+    return sll;
+}
+// Insert at the end of the list
+void insert_sll(struct sll *sll, void *data)
+{
     struct node *new_node = (struct node *)malloc(sizeof(struct node));
     new_node->data = data;
     new_node->next = NULL;
-    if (index == -1)
+    if(sll->head == NULL)
     {
-        if (*head == NULL)
-        {
-            *head = new_node;
-            return;
-        }
-        struct node *temp = *head;
-        while (temp->next != NULL)
+        sll->head = new_node;
+        // printf("%d ", *(int *)sll->head->data);
+    }
+    else
+    {
+        // printf("%d ", *(int *)sll->head->data);
+        struct node* temp = sll->head;
+        while(temp->next != NULL)
         {
             temp = temp->next;
         }
         temp->next = new_node;
-        return;
+        // printf("%d ", *(int *)temp->next->data);
+        // printf("%d ", *(int *)sll->head->data);
     }
-    if (index == 0)
-    {
-        new_node->next = *head;
-        *head = new_node;
-        return;
-    }
-    struct node *temp = *head;
-    for (int i = 0; i < index - 1; i++)
-    {
-        temp = temp->next;
-    }
-    new_node->next = temp->next;
-    temp->next = new_node;
-
+    // print vlaue at *data 
+    // printf("%d ", *(int *)data);
 }
 
-// Function to Remove from the list the element at the given index and return it
-int Remove(struct node **head, int index)
+// Delete from front and return the data
+void* delete_sll(struct sll *sll)
 {
-    struct node *temp = *head;
-    struct node *prev = NULL;
-    int i = 0;
-    while (i < index)
+    if(sll->head == NULL)
     {
-        prev = temp;
-        temp = temp->next;
-        i++;
-    }
-    if (prev == NULL)
-    {
-        *head = temp->next;
+        return NULL;
     }
     else
     {
-        prev->next = temp->next;
-    }
-    int data = temp->data;
-    free(temp);
-    return data;
-}
-// Function to print the list
-void printList(struct node *node)
-{
-    while (node != NULL)
-    {
-        // printf(" %d ", node->data);
-        node = node->next;
+        struct node *temp = sll->head;
+        sll->head = sll->head->next;
+        // printf("%d ", *(int *)temp->data);
+        return temp->data;
     }
 }
-// Function to check if list is empty
-int isEmpty(struct node *head)
-{
-    return head == NULL;
-}
+/*
+Linked list stores pointers to nodes. And can hence store any data type.
+It will NOT work with for loops adding values to the list for testing if the pointer being passed remains the same.
+*/
 
 int main()
 {
-
-    // Creating radix sort using linked lists for each digit
-    struct node *head[10];
-    for (int i = 0; i < 10; i++)
-        head[i] = NULL;
-    int n, num;
-    // printf("Enter the number of elements: ");
-    scanf("%d", &n);
-    // if n<0, invalid input
-    if (n <= 0)
-    {
-        printf("INVALID INPUT");
-        return 0;
-    }
-    // Declare the elements and take input into array
-    int arr[n];
-    // printf("Enter the elements: ");
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &arr[i]);
-        // if the inserted element is -ve, return and print INVALID INPUT
-        if (arr[i] < 0)
-        {
-            printf("INVALID INPUT");
-            return 0;
-        }
-    }
-    // Find the maximum number in the array
-    int max = arr[0];
-    for (int i = 1; i < n; i++)
-    {
-        if (arr[i] > max)
-            max = arr[i];
-    }
-    // Find the number of digits in the maximum number
-    int digits = 0;
-    while (max != 0)
-    {
-        max /= 10;
-        digits++;
-    }
-   // -- debug -- print the max and number of digits
-    // printf(Digits: %d", max, digits);
-    // Radix sort
-    for (int i = 0; i < digits; i++)
-    {
-        // Add the elements to the list based on the digit
-        for (int j = 0; j < n; j++)
-        {
-            int digit = (arr[j] / (int)pow(10, i)) % 10;
-            add(&head[digit], arr[j], -1);
-            // -- debug -- print arr[j] and digit, i 
-            // printf("arr[%d]: %d, digit: %d, i: %d \n", j, arr[j], digit, i);
-        }
-        // Remove the elements from the list and add them to the array
-        int index = 0;
-        for (int j = 0; j < 10; j++)
-        {
-            while (!isEmpty(head[j]))
-            {
-                arr[index] = Remove(&head[j], 0);
-                // printf("inserted arr[%d]: %d \n", index, arr[index]);
-                index++;
-            }
-        }
-        // printf("After iteration %d: ", i);
-        // for (int j = 0; j < n; j++)
-        // {
-        //     printf("%d ", arr[j]);
-        // }
-        // printf("\n");
-    }
-    // Print the sorted array
-    // printf("Sorted array: ");
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-
+    struct sll *sll = create_sll();
+    
 }
