@@ -76,6 +76,18 @@ void* delete_sll(struct sll *sll)
         return temp->data;
     }
 }
+
+bool is_empty_sll(struct sll *sll)
+{
+    if(sll->head == NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 /*
 Linked list stores pointers to nodes. And can hence store any data type.
 It will NOT work with for loops adding values to the list for testing if the pointer being passed remains the same.
@@ -83,12 +95,22 @@ It will NOT work with for loops adding values to the list for testing if the poi
 
 int main()
 {
-    struct sll[10] *sll;
+    struct sll* sll[10];
     int i = 0;
     for(i = 0; i < 10; i++)
     {
         sll[i] = create_sll();
     }
+    // add 3 elements to list 0 and remove from it using a loop
+    // int arr[] = {120, 100, 30};
+    // for(i = 0; i < 3; i++)
+    // {
+    //     insert_sll(sll[i], &arr[i]);
+    // }
+    // for(i = 0; i < 3; i++)
+    // {
+    //     printf("%d ", *(int *)delete_sll(sll[i]));
+    // }
     int n, num;
     // printf("Enter the number of elements: ");
     scanf("%d", &n);
@@ -125,8 +147,8 @@ int main()
         max /= 10;
         digits++;
     }
-   // -- debug -- print the max and number of digits
-    // printf(Digits: %d", max, digits);
+//    // -- debug -- print the max and number of digits
+    // printf("Digits: %d", max, digits);
     // Radix sort
     for (int i = 0; i < digits; i++)
     {
@@ -134,36 +156,31 @@ int main()
         for (int j = 0; j < n; j++)
         {
             int digit = (arr[j] / (int)pow(10, i)) % 10;
-            // add(&head[digit], arr[j], -1);
             insert_sll(sll[digit], &arr[j]);
-            // -- debug -- print arr[j] and digit, i 
-            // printf("arr[%d]: %d, digit: %d, i: %d \n", j, arr[j], digit, i);
         }
-        // Remove the elements from the list and add them to the array
-        int index = 0;
+        // Remove the elements from the list and add to the array
         for (int j = 0; j < 10; j++)
         {
-            while (!isEmpty(head[j]))
+            while (!is_empty_sll(sll[j]))
             {
-                // arr[index] = Remove(&head[j], 0);
-                arr[index] = *(int *)delete_sll(sll[j]);
-                // printf("inserted arr[%d]: %d \n", index, arr[index]);
-                index++;
+                arr[j] = *(int *)delete_sll(sll[j]);
             }
+            // deallocate the memory and create a new list in place
+            free(sll[j]);
+            sll[j] = create_sll();
         }
-        // printf("After iteration %d: ", i);
-        // for (int j = 0; j < n; j++)
-        // {
-        //     printf("%d ", arr[j]);
-        // }
-        // printf("\n");
+        // print array after each iteration
+        for (int i = 0; i < n; i++)
+        {
+            printf("%d ", arr[i]);
+        }
     }
     // Print the sorted array
-    // printf("Sorted array: ");
     for (int i = 0; i < n; i++)
     {
         printf("%d ", arr[i]);
     }
+    return 0;
 
     
 }
