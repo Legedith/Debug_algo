@@ -178,7 +178,10 @@ int main()
             int digit = (arr[j] / (int)pow(10, i)) % 10;
             // print 
             // printf("Digit: %d \n", digit);
-            insert_sll(sll[digit], &arr[j]);
+            // copy the value of arr[j] and pass it to list
+            int *data = (int *)malloc(sizeof(int));
+            *data = arr[j];
+            insert_sll(sll[digit], data);
             // printf("%d \n", *(int *)sll[digit]->head->data);
             
         }
@@ -201,12 +204,12 @@ int main()
             while (!is_empty_sll(sll[j]))
             {
                 // Print list before
-                printf("\n\nBefore: ");
-                for (int k = 0; k < 10; k++)
-                {
-                    printf("List %d: ", k);
-                    print_sll(sll[k]);
-                }
+                // printf("\n\nBefore: ");
+                // for (int k = 0; k < 10; k++)
+                // {
+                //     printf("List %d: ", k);
+                //     print_sll(sll[k]);
+                // }
                 // Print value of j
                 printf("Jth list : %d ", j);
                 int val = *(int *)delete_sll(sll[j]);
@@ -214,12 +217,12 @@ int main()
                 arr[f] = val;
                 f++;
                 // Print the list after removing the element
-                printf("After: ");
-                for (int k = 0; k < 10; k++)
-                {
-                    printf("List %d: ", k);
-                    print_sll(sll[k]);
-                }
+                // printf("After: ");
+                // for (int k = 0; k < 10; k++)
+                // {
+                //     printf("List %d: ", k);
+                //     print_sll(sll[k]);
+                // }
             }
         }
         // print array after each iteration
